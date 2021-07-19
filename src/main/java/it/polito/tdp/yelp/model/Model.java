@@ -11,6 +11,10 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
+import com.javadocmd.simplelatlng.LatLng;
+import com.javadocmd.simplelatlng.LatLngTool;
+import com.javadocmd.simplelatlng.util.LengthUnit;
+
 import it.polito.tdp.yelp.db.YelpDao;
 
 public class Model {
@@ -109,6 +113,9 @@ public class Model {
 	
 	
 	private double getDistanza(Business b1, Business b2) {
-		LatLng l = new LatLng(0, 0);
+		LatLng l1 = new LatLng(b1.getLatitude(), b1.getLongitude());
+		LatLng l2 = new LatLng(b2.getLatitude(),b2.getLongitude());
+		double distanza = LatLngTool.distance(l1, l2, LengthUnit.KILOMETER);
+		return distanza;
 	}
 }
