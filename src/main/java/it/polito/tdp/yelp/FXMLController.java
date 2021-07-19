@@ -35,13 +35,13 @@ public class FXMLController {
     private Button btnPercorso; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbCitta"
-    private ComboBox<?> cmbCitta; // Value injected by FXMLLoader
+    private ComboBox<String> cmbCitta; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtX"
     private TextField txtX; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbAnno"
-    private ComboBox<?> cmbAnno; // Value injected by FXMLLoader
+    private ComboBox<Integer> cmbAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbLocale"
     private ComboBox<?> cmbLocale; // Value injected by FXMLLoader
@@ -56,12 +56,23 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	if(this.cmbAnno.getValue()==null) {
+    		txtResult.setText("ATTENZIONE: scegliere un anno");
+    		return;
+    	}
+    	
+    	if(this.cmbCitta.getValue()==null) {
+    		txtResult.setText("ATTENZIONE: scegliere una citta");
+    		return;
+    	}
+    	this.model.creaGrafo(this.cmbAnno.getValue(), this.cmbCitta.getValue());
+    	this.btnLocaleMigliore.setDisable(false);
+    	txtResult.setText("Grafo Creato \n# VERTICI: "+ model.numeroVertici() + "\n# ARCHI: " + model.numeroArchi()); 
     }
 
     @FXML
     void doLocaleMigliore(ActionEvent event) {
-
+    		this.txtResult.setText("Loalce migliore: \n" + this.model.getLocaleMigliore().toString());
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -78,5 +89,10 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	this.cmbCitta.getItems().clear();
+    	this.cmbCitta.getItems().addAll(this.model.getCitta());
+    	this.cmbAnno.getItems().clear();
+    	this.cmbAnno.getItems().addAll(2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013);
+    	this.btnLocaleMigliore.setDisable(true);
     }
 }
